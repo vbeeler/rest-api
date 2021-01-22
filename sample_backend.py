@@ -20,7 +20,7 @@ def randomID():
 def hello_world():
 	return 'Hello, world!'
 
-@app.route('/users', methods=['GET', 'POST', 'DELETE'])
+@app.route('/users', methods=['GET', 'POST'])
 def get_users():
 	if request.method == 'GET':
 		search_username = request.args.get('name')
@@ -45,18 +45,6 @@ def get_users():
 		resp = jsonify(userToAdd)
 		resp.status_code = 201
 		return resp
-	elif request.method == 'DELETE':
-		search_id = request.args.get('id')
-		resp = jsonify(success=False)
-		if search_id :
-			subdict = []
-			for user in users['users_list']:
-				if user['id'] != search_id:
-					subdict.append(user)
-				else:
-					resp = jsonify(success=True)
-			users['users_list'] = subdict
-		return resp
 
 @app.route('/users/<id>', methods=['GET', 'DELETE'])
 def get_user(id):
@@ -76,7 +64,7 @@ def get_user(id):
 					subdict.append(user)
 				else:
 					resp = jsonify(success=True)
-					#resp.status_code = 200
+					resp.status_code = 200
 			users['users_list'] = subdict
 		return resp
 
